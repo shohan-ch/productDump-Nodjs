@@ -1,8 +1,6 @@
+const productController =  require('../controllers/ProductController')
 exports.route  = (req, res) =>{
     const {url} = req;
-
-    if(url==="/"){
-        res.end("Home Page 123")
-    } 
+    if(url==="/") productController.getAll(res)
 
 }
