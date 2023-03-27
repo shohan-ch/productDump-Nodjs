@@ -26,3 +26,27 @@ exports.getOne = async (res, id) => {
     console.log(error.message);
   }
 };
+
+exports.insertProduct =  async(req, res) =>{
+  try {
+    let chunkData = [];
+    req.on('data', (chunk)=>{
+      chunkData.push(chunk)
+    })
+    req.on('end', async()=>{
+    const formData =  chunkData.toString();
+    // Data get from form request
+    const data  = JSON.parse(formData);
+    // Insert data to database
+    const product =  await Product.create(data);
+    // const newProduct = new Product(data);
+    // const product  =  await newProduct.save();  
+    if(product){
+      res.end(JSON.stringify(product))
+    }
+    })
+    
+  } catch (error) {
+    console.log(error.message)
+  }
+}
