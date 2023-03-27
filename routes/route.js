@@ -10,8 +10,12 @@ exports.route = (req, res) => {
   if (href === productRoute && req.method=='GET') productController.getAll(res);
   if (href === productRoute + `?id=${id}` && req.method == "GET")     
     productController.getOne(res, id);
-    // Insert Products
+  // Insert Products
   if (href === productRoute && req.method=='POST') productController.insertProduct(req,res);
+  // Update Products
+  if (href === productRoute + `?id=${id}` && req.method=='PATCH') productController.updateProduct(req,res,id);
+   // Delete Products
+  if (href === productRoute + `?id=${id}` && req.method=='DELETE') productController.deleteProduct(req,res,id);
 
 
 };

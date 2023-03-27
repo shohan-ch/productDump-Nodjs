@@ -50,3 +50,27 @@ exports.insertProduct =  async(req, res) =>{
     console.log(error.message)
   }
 }
+
+exports.updateProduct =  async(req,res,id)=>{
+  try {
+    res.end(id)
+  } catch (error) {
+    console.log(error.message)
+  
+  }
+
+}
+
+exports.deleteProduct =  async(req,res,id)=>{
+  try {
+    const productDelete =  await Product.findOneAndDelete({_id:id});
+    if(productDelete){
+      res.end(JSON.stringify(productDelete))
+    }
+    // res.end(id)
+  } catch (error) {
+    console.log(error.message)
+  
+  }
+
+}
