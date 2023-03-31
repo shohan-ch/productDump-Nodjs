@@ -62,10 +62,10 @@ exports.updateProduct =  async(req,res,id)=>{
     },
       {
         $set:{
-          names:data.name,
-          prices:data.price,
-          ratings:data.rating,
-          descriptions:data.description
+          name:data.name,
+          price:data.price,
+          rating:data.rating,
+          description:data.description
         }
       }
       )
