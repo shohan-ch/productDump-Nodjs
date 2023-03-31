@@ -1,3 +1,4 @@
+const getFormData = require("../lib/getFormData");
 const Product = require("../models/Product");
 
 exports.getAll = async (res) => {
@@ -53,41 +54,30 @@ exports.insertProduct =  async(req, res) =>{
 
 exports.updateProduct =  async(req,res,id)=>{
   try {
+    const data  =  await getFormData(req)
+    console.log(data)
 
-    const chunkData =  [];
-    req.on('data', (chunk)=>{
-      chunkData.push(chunk);
-    })
-    req.on('end', async()=>{
-      const data  = chunkData.toString();
-      const formData = JSON.parse(data);
-      const productUpdate =  await Product.updateOne({_id:id},
+    const productUpdate =  await Product.updateOne({
+      _id:id
+    },
       {
         $set:{
-          name:formData.name,
-          price:formData.price,
-          rating:formData.rating,
-          description:formData.description
+          names:data.name,
+          prices:data.price,
+          ratings:data.rating,
+          descriptions:data.description
         }
       }
       )
-
       if(productUpdate){
         res.end(JSON.stringify(productUpdate))
       }else{
         res.end(JSON.stringify('Product not updated'))
 
       }
-
-      // console.log(formData);
-
-    })
-
-
-    // res.end(id)
   } catch (error) {
-    console.log(error.message)
-  
+    res.writeHead(500,{ 'Content-Type': 'text/plain'});
+    res.end(JSON.stringify(error.message))
   }
 
 }
@@ -98,9 +88,9 @@ exports.deleteProduct =  async(req,res,id)=>{
     if(productDelete){
       res.end(JSON.stringify(productDelete))
     }
-    // res.end(id)
+
   } catch (error) {
-    console.log(error.message)
+    console.log(JSON.stringify(error.message))
   
   }
 
