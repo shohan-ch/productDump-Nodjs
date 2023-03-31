@@ -53,7 +53,38 @@ exports.insertProduct =  async(req, res) =>{
 
 exports.updateProduct =  async(req,res,id)=>{
   try {
-    res.end(id)
+
+    const chunkData =  [];
+    req.on('data', (chunk)=>{
+      chunkData.push(chunk);
+    })
+    req.on('end', async()=>{
+      const data  = chunkData.toString();
+      const formData = JSON.parse(data);
+      const productUpdate =  await Product.updateOne({_id:id},
+      {
+        $set:{
+          name:formData.name,
+          price:formData.price,
+          rating:formData.rating,
+          description:formData.description
+        }
+      }
+      )
+
+      if(productUpdate){
+        res.end(JSON.stringify(productUpdate))
+      }else{
+        res.end(JSON.stringify('Product not updated'))
+
+      }
+
+      // console.log(formData);
+
+    })
+
+
+    // res.end(id)
   } catch (error) {
     console.log(error.message)
   
