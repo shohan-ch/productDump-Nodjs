@@ -13,7 +13,7 @@ const startServer =  async () =>{
     }
 }
 
- startServer()
+startServer()
 
 
 // http.createServer(route).listen(port, ()=>console.log("Server listen at port:"+port))
